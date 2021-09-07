@@ -1,0 +1,4 @@
+name: manim_env
+dependencies:
+  - pip:
+    - manim==0.10.0
