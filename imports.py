@@ -10,7 +10,11 @@ def animate(self, body, nazvy_bodu, baze):
     x2 = self.add_vector(baze[1], color=YELLOW)
     self.add_transformable_label(x2, MathTex(r"\vec{x}_2"), animate=False, at_tip=False, new_label=MathTex(r"\vec{x}_2"))
     self.show_coordinates=True
-    points = VGroup(*[Circle(radius=0.05, color=RED, fill_opacity=1).move_to((bod[0], bod[1], 0)) for bod in body])
+    points = VGroup(*[Circle(radius=0.05, color=RED, fill_opacity=1).set_z_index(2).move_to((bod[0], bod[1], 0)) for bod in body])
+    
+    while len(nazvy_bodu) != len(body): 
+            nazvy_bodu.append("")
+
     labels_array = [Tex(nazev).scale(0.7).move_to((*(np.array(bod) + 0.4*np.array(bod)/np.linalg.norm(bod)), 0)) for nazev, bod in zip(nazvy_bodu, body)]
     for label in labels_array: label.add_background_rectangle()
     
