@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from manim import *
 import numpy as np
+from inspect import signature
 
 def animate(self, body, nazvy_bodu, baze):
     self.background_plane.add_coordinates()
@@ -48,8 +49,12 @@ def animate_curve(self, curve_func, baze):
 
     basis_matrix = np.array([[baze[0][0], baze[1][0]], [baze[0][1], baze[1][1]]])
     transition_matrix = np.linalg.inv(basis_matrix)
-
-    curve = ParametricFunction(curve_func, t_range = np.array([0, TAU]), fill_opacity=0).set_color(RED)
+    if len(signature(curve_func).parameters) ==1:
+        curve = ParametricFunction(curve_func, t_range = np.array([0, TAU]), fill_opacity=0).set_color(RED)
+    elif len(signature(curve_func).parameters) ==2:
+        curve = ImplicitFunction(curve_func).set_color(RED)
+    else:
+        raise Exception("Number of arguments not allowed")
     self.play(FadeIn(curve))
     self.add_transformable_mobject(curve)
 
