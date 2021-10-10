@@ -5,11 +5,6 @@ from inspect import signature
 
 def animate(self, body, nazvy_bodu, baze):
     self.background_plane.add_coordinates()
-    self.wait(2)
-    x1 = self.add_vector(baze[0], color=BLUE)
-    self.add_transformable_label(x1, MathTex(r"\vec{x}_1"), animate=False, at_tip=False, new_label=MathTex(r"\vec{x}_1"))
-    x2 = self.add_vector(baze[1], color=YELLOW)
-    self.add_transformable_label(x2, MathTex(r"\vec{x}_2"), animate=False, at_tip=False, new_label=MathTex(r"\vec{x}_2"))
     self.show_coordinates=True
     points = VGroup(*[Circle(radius=0.05, color=RED, fill_opacity=1).set_z_index(2).move_to((bod[0], bod[1], 0)) for bod in body])
     
@@ -30,10 +25,14 @@ def animate(self, body, nazvy_bodu, baze):
     transform_labels = ReplacementTransform(labels, transformed_labels)
     
     lines = VGroup(*[Line(start=(*bod1, 0), end=(*bod2,0)).set_opacity(0.5) for bod1, bod2 in zip(body, body[1:] + [body[0]])])
-    self.wait(1)
-    self.play(FadeIn(points, labels, lines))
+    self.add(points, labels, lines)
     self.add_transformable_mobject(points, lines)
 
+    self.wait(2)
+    x1 = self.add_vector(baze[0], color=BLUE)
+    self.add_transformable_label(x1, MathTex(r"\vec{x}_1"), animate=False, at_tip=False, new_label=MathTex(r"\vec{x}_1"))
+    x2 = self.add_vector(baze[1], color=YELLOW)
+    self.add_transformable_label(x2, MathTex(r"\vec{x}_2"), animate=False, at_tip=False, new_label=MathTex(r"\vec{x}_2"))
     self.wait(2)
     self.apply_matrix(transition_matrix, added_anims=[transform_labels])
     self.wait(5)
