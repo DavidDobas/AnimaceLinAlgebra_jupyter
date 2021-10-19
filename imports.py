@@ -49,7 +49,8 @@ def animate_curve(self, curve_func, baze):
     basis_matrix = np.array([[baze[0][0], baze[1][0]], [baze[0][1], baze[1][1]]])
     transition_matrix = np.linalg.inv(basis_matrix)
     if len(signature(curve_func).parameters) ==1:
-        curve = ParametricFunction(curve_func, t_range = np.array([0, TAU]), fill_opacity=0).set_color(RED)
+        def curve_func_modified(t): return np.array((*curve_func(t), 0))
+        curve = ParametricFunction(curve_func_modified, t_range = np.array([0, TAU]), fill_opacity=0).set_color(RED)
     elif len(signature(curve_func).parameters) ==2:
         curve = ImplicitFunction(curve_func).set_color(RED)
     else:
