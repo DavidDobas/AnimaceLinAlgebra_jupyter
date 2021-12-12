@@ -63,9 +63,10 @@ def animate_curve(self, curve_func, baze):
     self.wait(5)
 
 def apply_matrix_on_square(self, body, nazvy_bodu, matice):
+    self.remove(self.background_plane)
     self.background_plane_kwargs= {
-                "x_range": np.array([-10, 10, 1]),
-                "y_range": np.array([-8, 8, 1]),
+                "x_range": np.array([-15, 15, 1]),
+                "y_range": np.array([-10, 10, 1]),
                 "faded_line_ratio": 1,
                 "color": GREY,
                 "axis_config": {
@@ -87,14 +88,14 @@ def apply_matrix_on_square(self, body, nazvy_bodu, matice):
     while len(nazvy_bodu) != len(body): 
             nazvy_bodu.append("")
 
-    labels_array = [MathTex(nazev).scale(0.7).move_to((*(np.array(bod) + 0.4*np.array(bod)/np.linalg.norm(bod)), 0)) for nazev, bod in zip(nazvy_bodu, body)]
+    labels_array = [MathTex(nazev).scale(1.1).move_to((*(np.array(bod) + 0.4*np.array(bod)/np.linalg.norm(bod)), 0)) for nazev, bod in zip(nazvy_bodu, body)]
     for label in labels_array: label.add_background_rectangle()
     
 
     transition_matrix = matice
     
     transformed_labels_positions = [np.matmul(transition_matrix,np.array(bod)) for bod in body]
-    transformed_labels_array = [MathTex(r'A(', nazev, r')').scale(0.7).move_to((*(pos + 0.4*pos/np.linalg.norm(pos)), 0)) for nazev, pos in zip(nazvy_bodu, transformed_labels_positions)]
+    transformed_labels_array = [MathTex(r'A(', nazev, r')').scale(1.1).move_to((*(pos + 0.7*pos/np.linalg.norm(pos)), 0)) for nazev, pos in zip(nazvy_bodu, transformed_labels_positions)]
     for label in transformed_labels_array: label.add_background_rectangle()
     labels = VGroup(*labels_array)
     transformed_labels =  VGroup(*transformed_labels_array)
@@ -109,9 +110,10 @@ def apply_matrix_on_square(self, body, nazvy_bodu, matice):
     self.wait(5)  
 
 def apply_matrix_on_curve(self, curve_func, matice):
+    self.remove(self.background_plane)
     self.background_plane_kwargs= {
-                "x_range": np.array([-10, 10, 1]),
-                "y_range": np.array([-8, 8, 1]),
+                "x_range": np.array([-15, 15, 1]),
+                "y_range": np.array([-10, 10, 1]),
                 "faded_line_ratio": 1,
                 "color": GREY,
                 "axis_config": {
